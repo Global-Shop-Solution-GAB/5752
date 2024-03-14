@@ -1,0 +1,37 @@
+Program.Sub.Preflight.Start
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+f.Intrinsic.Control.Try
+	v.Local.sError.Declare
+	v.Local.bSecurity.Declare
+	
+	f.Intrinsic.Control.If(v.Caller.Hook,=,25720)
+		f.Global.Security.IsInGroup(v.Caller.User,"TIMEATT",V.Caller.CompanyCode,V.Local.bSecurity)
+		F.Intrinsic.Control.If(V.Local.bSecurity.Not)
+			'Lock screen
+			'Date In HH NN
+			F.Intrinsic.UI.ChangeCallerProperty(Variable.Passed.000083,"LOCK",1)
+			F.Intrinsic.UI.ChangeCallerProperty(Variable.Passed.000004,"LOCK",1)
+			F.Intrinsic.UI.ChangeCallerProperty(Variable.Passed.000150,"LOCK",1)
+			'Date Out HH NN
+			F.Intrinsic.UI.ChangeCallerProperty(Variable.Passed.000084,"LOCK",1)
+			F.Intrinsic.UI.ChangeCallerProperty(Variable.Passed.000089,"LOCK",1)
+			F.Intrinsic.UI.ChangeCallerProperty(Variable.Passed.000091,"LOCK",1)			
+			'Hour Minute
+			F.Intrinsic.UI.ChangeCallerProperty(Variable.Passed.000163,"LOCK",1)
+			F.Intrinsic.UI.ChangeCallerProperty(Variable.Passed.000166,"LOCK",1)
+			
+		F.Intrinsic.Control.EndIf	
+	f.Intrinsic.Control.EndIf
+
+	
+	
+F.Intrinsic.Control.Catch
+	F.Intrinsic.String.Build("Project: {0}{1}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}{1}{1}GAB Version: {5}",V.Ambient.ScriptPath,V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Ambient.GABVersion,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.End
+F.Intrinsic.Control.EndTry
+
+
+Program.Sub.Main.End
